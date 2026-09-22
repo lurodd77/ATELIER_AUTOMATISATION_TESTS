@@ -1,16 +1,61 @@
-from flask import Flask, render_template_string, render_template, jsonify, request, redirect, url_for, session
-from flask import render_template
-from flask import json
-from urllib.request import urlopen
-from werkzeug.utils import secure_filename
-import sqlite3
+from flask import Flask, jsonify, render_template, redirect, url_for
+
+from tester.runner import run_tests
+from storage import save_run, list_runs, get_last_run
+
 
 app = Flask(__name__)
 
-@app.get("/")
-def consignes():
-     return render_template('consignes.html')
+
+@app.route("/")
+def home():
+    """Redirige vers le dashboard."""
+    return redirect(url_for("dashboard"))
+
+
+@app.route("/run")
+def run():
+    """Lance les tests et enregistre le résultat."""
+    result = run_tests()
+    save_run(result)
+
+    return jsonify(result)
+
+
+@app.route("/dashboard")
+def dashboard():
+    """Affiche le dashboard et l'historique."""
+    runs = list_runs(20)
+    last_run = get_last_run()
+
+    return render_template(
+        "dashboard.html",
+        runs=runs,
+        last_run=last_run
+    )
+
+
+@app.route("/health")
+def health():
+    """État de santé de notre solution."""
+    last_run = get_last_run()
+
+    if last_run is None:
+        return jsonify({
+            "status": "UNKNOWN",
+            "message": "Aucun test n'a encore été exécuté"
+        }), 200
+
+    healthy = last_run["failed"] == 0
+
+    return jsonify({
+        "status": "UP" if healthy else "DEGRADED",
+        "api": "Frankfurter",
+        "last_run": last_run["timestamp"],
+        "availability": last_run["availability"],
+        "failed_tests": last_run["failed"]
+    }), 200 if healthy else 503
+
 
 if __name__ == "__main__":
-    # utile en local uniquement
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(debug=True)
