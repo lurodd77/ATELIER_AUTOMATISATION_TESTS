@@ -1,3 +1,91 @@
+🚀 Mon projet — API Monitoring Frankfurter
+API choisie
+API : Frankfurter
+Type : API de taux de change
+Authentification : Aucune
+URL de base : https://api.frankfurter.dev
+Documentation : https://frankfurter.dev/
+🧪 Tests automatisés
+
+J'ai développé une solution permettant de tester automatiquement l'API Frankfurter.
+
+6 tests sont exécutés :
+
+Vérification du code HTTP 200
+Vérification du Content-Type JSON
+Vérification des champs obligatoires
+Vérification du type des champs
+Vérification des valeurs EUR/USD
+Vérification du comportement avec une devise invalide
+
+Les tests sont non destructifs et utilisent uniquement des requêtes GET.
+
+🛡️ Robustesse
+
+Le client HTTP possède :
+
+Timeout de 3 secondes
+1 retry maximum
+Gestion du code HTTP 429
+Gestion des erreurs serveur 5xx
+Gestion des timeouts et erreurs réseau
+📊 Métriques QoS
+
+Pour chaque exécution, les indicateurs suivants sont calculés :
+
+Nombre de tests réussis
+Nombre de tests échoués
+Taux d'erreur
+Disponibilité
+Latence moyenne
+Latence P95
+
+Exemple d'un résultat obtenu :
+
+Tests : 6
+PASS : 6
+FAIL : 0
+Disponibilité : 100 %
+Taux d'erreur : 0 %
+Latence moyenne : 108.03 ms
+P95 : 305.48 ms
+💾 Historique
+
+Les résultats des exécutions sont enregistrés dans une base de données SQLite afin de conserver un historique.
+
+🌐 Application Flask
+
+L'application expose plusieurs routes :
+
+/run : lance les tests et enregistre les résultats
+/dashboard : affiche les métriques et l'historique
+/health : indique l'état de santé de la solution
+🏗️ Architecture
+project/
+├── flask_app.py
+├── storage.py
+├── API_CHOICE.md
+├── requirements.txt
+├── tester/
+│   ├── client.py
+│   ├── tests.py
+│   └── runner.py
+└── templates/
+    └── dashboard.html
+☁️ Déploiement
+
+L'application est déployée sur PythonAnywhere.
+
+Le déploiement est automatisé avec GitHub Actions à chaque modification du repository.
+
+✅ Résultat
+
+La solution permet de :
+
+Tester → Mesurer → Enregistrer → Surveiller
+
+l'API publique Frankfurter.
+
 ------------------------------------------------------------------------------------------------------
 🎯Atelier “Testing as Code & API Monitoring”
 ------------------------------------------------------------------------------------------------------
