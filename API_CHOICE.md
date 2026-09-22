@@ -1,13 +1,26 @@
 # API Choice
 
-- Étudiant :
-- API choisie :
-- URL base :
-- Documentation officielle / README :
-- Auth : None / API Key / OAuth
+- Étudiant : Lucas
+- API choisie : Frankfurter
+- URL base : https://api.frankfurter.dev
+- Documentation officielle / README : https://frankfurter.dev/
+- Auth : None 
 - Endpoints testés :
-  - GET ...
-  - GET ...
+  - GET /v2/rate/eur/usd
+  - GET /v2/rates?base=eur
+  - GET /v2/currencies
 - Hypothèses de contrat (champs attendus, types, codes) :
+  - Une requête valide doit retourner un code HTTP 200.
+  - La réponse doit être au format JSON.
+  - L'endpoint /v2/rate/eur/usd doit contenir les champs date, base, quote et rate.
+  - Les champs date, base et quote doivent être des chaînes de caractères.
+  - Le champ rate doit être une valeur numérique.
+  - Une devise invalide doit retourner une erreur HTTP.
 - Limites / rate limiting connu :
+  - Aucune authentification requise.
+  - Les tests seront limités à moins de 20 requêtes par run afin de ne pas surcharger l'API.
 - Risques (instabilité, downtime, CORS, etc.) :
+  - Indisponibilité temporaire de l'API.
+  - Latence réseau variable.
+  - Timeout possible.
+  - Possibilité d'erreurs HTTP 429 ou 5xx.
